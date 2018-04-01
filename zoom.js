@@ -311,6 +311,15 @@ function Zoom(elem, config, wnd) {
         me.destCoords = getCoords(touches);
     };
 
+    var hasStylus = function(touches) {
+        for (var i=0; i < touches.length; i++) {
+            if (touches[i].touchType === 'stylus') {
+                return true;
+            }
+        }
+        return false;
+    }
+
     var handleTouchEvent = function(cb) {
         return function(evt) {
             evt.preventDefault();
@@ -318,7 +327,9 @@ function Zoom(elem, config, wnd) {
                 return false;
             }
             var touches = evt.touches;
-            if (!touches) {
+
+            // Return if there is no touches or if it contains stylus touches
+            if (!touches || (touches && hasStylus(touches))) {
                 return false;
             }
             cb(touches);
