@@ -343,7 +343,7 @@ function Zoom(elem, config, wnd) {
         if (touches.length === 1) {
             if (me.mayBeDoubleTap != null) {
                 me.wnd.clearTimeout(me.mayBeDoubleTap);
-                me.reset();
+                me.reset(true);
                 me.mayBeDoubleTap = null;
             } else {
                 me.mayBeDoubleTap = me.wnd.setTimeout(function() {
@@ -397,8 +397,8 @@ Zoom.prototype.repaint = function() {
     this.elem.style.transform = this.resultantZoom.css();
 };
 
-Zoom.prototype.reset = function() {
-    if (this.wnd.requestAnimationFrame) {
+Zoom.prototype.reset = function(useAnimation) {
+    if (useAnimation && this.wnd.requestAnimationFrame) {
         this.isAnimationRunning = true;
         var Z = this.activeZoom;
         var startTime = null;
